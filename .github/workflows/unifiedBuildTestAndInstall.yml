@@ -195,6 +195,15 @@ jobs:
           docker-images: true
           large-packages: false
           tool-cache: true
+      - name: Setup Swap Space
+        if: runner.os == 'Linux'
+        run: |
+          sudo fallocate -l 8G /swapfile
+          sudo chmod 600 /swapfile
+          sudo mkswap /swapfile
+          sudo swapon /swapfile
+          echo "=== Memory and Swap after activation ==="
+          free -h
       - name: Check Initial Disk and Memory Usage
         shell: bash
         run: |
